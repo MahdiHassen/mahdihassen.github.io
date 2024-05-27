@@ -332,6 +332,12 @@ body {
       padding: 1px;
     }
 
+    .religion{
+      background-color: #e1bb6a;
+      font-size: 12px;
+      padding: 1px;
+    }
+
     p{
       margin: 0;
       color: #555555;
