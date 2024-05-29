@@ -248,7 +248,7 @@ textarea {
 body {
 
   font-family: monospace;
-  font-size: 24px;
+  font-size: 20px;
 
   background: #f7f7f7;
 
@@ -308,7 +308,7 @@ body {
 
   .sectionContent{
 
-    font-size: 20px;
+    font-size: 18px;
     max-width: 640px;
     margin: 0 auto;
     padding: 4rem 2rem;
