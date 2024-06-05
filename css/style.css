@@ -345,6 +345,12 @@ body {
       padding: 1px;
     }
 
+    .short{
+      background-color: #67a7a8;
+      font-size: 12px;
+      padding: 1px;
+    }
+
     p{
       margin: 0;
       color: #555555;
