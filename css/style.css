@@ -248,15 +248,16 @@ textarea {
 body {
 
   font-family: monospace;
-  font-size: 20px;
+  font-size: 24px;
 
-  background: #f7f7f7;
+  background: #f3f2f0;
 
   h3 {
     font-weight: bold;
     text-align: center;
     margin-bottom: 0;
     margin-top: 16px;
+    font-size: 24px;
 
     @media (max-width: 600px){
       margin-top: 80px;
@@ -273,12 +274,27 @@ body {
   .mainContent {
     text-align: center;
     font-size: 20px;
-
+    margin: 0 auto;
+    max-width: 720px;
 
     a {
       text-decoration: none;
       color: inherit;
       padding: 2.5px;
+
+      &:hover{
+        background-color: rgb(60, 58, 61) !important;
+        color: white !important;
+      }
+    }
+
+
+    ul {
+      display: flex;
+      list-style: none;
+      justify-content: space-evenly;
+      padding: 0;
+      max-width: 640px;
     }
 
     &.me {
@@ -290,6 +306,7 @@ body {
     &.projects {
       a {
         background-color: #c2e235;
+
       }
     }
 
@@ -307,12 +324,30 @@ body {
 
   }
 
+  .aboutContent{
+    text-align: left;
+
+    h4 {
+
+      font-weight: bold;
+      font-size: 20px;
+      margin: 0;
+    }
+
+    .text{
+      margin-bottom: 16px;
+      margin-top: 8px;
+    }
+
+
+  }
+
   .sectionContent{
 
     font-size: 18px;
-    max-width: 640px;
+    max-width: 720px;
     margin: 0 auto;
-    padding: 4rem 2rem;
+    //padding: 4rem 2rem;
     padding-top: 0;
 
 
@@ -320,6 +355,9 @@ body {
       color: inherit;
       padding: 2px;
     }
+
+
+
 
     .philosophy{
       background-color: #e86c6c;
@@ -359,9 +397,16 @@ body {
 
     }
 
+    .text{
+      text-align: left;
+    }
+
   }
 
 
 }
+
+
+
 
 
