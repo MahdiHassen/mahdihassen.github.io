@@ -1,0 +1,15 @@
+Subject: [PATCH] Uncommitted changes before Update at 1/24/2025 10:43 PM [Changes]
+---
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.gitignore b/.gitignore
+--- a/.gitignore	
++++ b/.gitignore	
+@@ -5,3 +5,4 @@
+ dist
+ .cache
+ package-lock.json
++.editorconfig
