@@ -55,7 +55,66 @@
     "url": "https://www.8thwall.com/docs/",
     "description": "Comprehensive developer documentation for 8th Wall's WebAR and WebVR platform, including guides, API references, and tutorials.",
     "keywords": "8th Wall, documentation, WebAR, WebVR, API, tutorials"
+  },
+
+  {
+    "title": "Connected Papers",
+    "url": "https://www.connectedpapers.com/",
+    "description": "Connected Papers is a unique, visual tool to help researchers and applied scientists find and explore papers relevant to their field of work.",
+    "keywords": "Connected Papers, academic research, literature review, visualization tool"
+  },
+
+  {
+    "title": "Engineering Village",
+    "url": "https://www.engineeringvillage.com/home.url?usageZone=evlogo&usageOrigin=header",
+    "description": "Engineering Village is a comprehensive search and discovery platform that provides high-quality content, data, and intelligence needed to answer practical engineering questions.",
+    "keywords": "Engineering Village, engineering research, search platform, Compendex, Inspec, technical literature"
+  },
+
+  {
+    "title": "GBA Pan Docs",
+    "url": "https://gbdev.io/pandocs/",
+    "description": "Pan Docs is the most comprehensive technical reference for the Game Boy, covering specifications, memory maps, graphics, audio, and more.",
+    "keywords": "Pan Docs, Game Boy, technical reference, gbdev, homebrew development"
+  },
+
+  {
+    "title": "Haikei",
+    "url": "https://app.haikei.app/",
+    "description": "Haikei is a web-based design tool that enables users to generate unique SVG design assets, including shapes, backgrounds, and patterns, suitable for websites, social media, and more.",
+    "keywords": "Haikei, SVG generator, design tool, web design, graphic assets"
+  },
+
+  {
+    "title": "The Complete Guide to Preparing for a High-Frequency Trading FPGA Developer Interview",
+    "url": "https://thedatabus.in/hft_interview",
+    "description": "An in-depth guide by theDataBus.in offering insights and preparation strategies for FPGA developer interviews in the high-frequency trading industry.",
+    "keywords": "High-Frequency Trading, FPGA Developer Interview, theDataBus.in, interview preparation, FPGA, HFT"
+  },
+
+  {
+    "title": "Grind 75 - Tech Interview Handbook",
+    "url": "https://www.techinterviewhandbook.org/grind75/?hours=8",
+    "description": "Grind 75 is a customizable list of LeetCode questions designed to help individuals prepare for technical interviews. Users can tailor their study plans based on available hours per week, difficulty level, and specific topics.",
+    "keywords": "Grind 75, Tech Interview Handbook, LeetCode, coding interview preparation, algorithm questions, customizable study plan"
+  },
+
+  {
+    "title": "Affinity Designer",
+    "url": "https://affinity.serif.com/en-us/designer/",
+    "description": "Affinity Designer is an award-winning vector graphics software setting the new industry standard in the world of design. Available for Windows, macOS, and iPad, it offers a super-smooth, feature-packed experience for professional illustrators, web designers, game developers, and other creatives.",
+    "keywords": "Affinity Designer, vector graphics software, graphic design, illustration, UI design, macOS, Windows, iPad"
   }
+
+
+
+
+
+
+
+
+
+
 
 
 

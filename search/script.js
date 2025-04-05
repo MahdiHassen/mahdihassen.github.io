@@ -260,27 +260,31 @@ searchInput.addEventListener("input", () => {
   }
 });
 
-// Keyboard navigation for suggestions.
+// Keyboard navigation for suggestions and Enter-to-search.
 searchInput.addEventListener("keydown", (e) => {
   const suggestionItems = suggestionsDiv.querySelectorAll("li");
-  if (suggestionItems.length === 0) return;
   if (e.key === "ArrowDown") {
-    e.preventDefault();
-    suggestionIndex = (suggestionIndex + 1) % suggestionItems.length;
-    updateSuggestionHighlight(suggestionItems);
-  } else if (e.key === "ArrowUp") {
-    e.preventDefault();
-    suggestionIndex = (suggestionIndex - 1 + suggestionItems.length) % suggestionItems.length;
-    updateSuggestionHighlight(suggestionItems);
-  } else if (e.key === "Enter") {
-    if (suggestionIndex >= 0 && suggestionIndex < suggestionItems.length) {
+    if (suggestionItems.length > 0) {
       e.preventDefault();
+      suggestionIndex = (suggestionIndex + 1) % suggestionItems.length;
+      updateSuggestionHighlight(suggestionItems);
+    }
+  } else if (e.key === "ArrowUp") {
+    if (suggestionItems.length > 0) {
+      e.preventDefault();
+      suggestionIndex = (suggestionIndex - 1 + suggestionItems.length) % suggestionItems.length;
+      updateSuggestionHighlight(suggestionItems);
+    }
+  } else if (e.key === "Enter") {
+    e.preventDefault();
+    // If a suggestion is highlighted, use that; otherwise, search with the current input.
+    if (suggestionItems.length > 0 && suggestionIndex >= 0 && suggestionIndex < suggestionItems.length) {
       const selectedTitle = suggestionItems[suggestionIndex].getAttribute("data-title");
       searchInput.value = selectedTitle;
-      suggestionsDiv.innerHTML = "";
-      suggestionsDiv.style.display = "none";
-      performSearch(selectedTitle);
     }
+    suggestionsDiv.innerHTML = "";
+    suggestionsDiv.style.display = "none";
+    performSearch(searchInput.value);
   }
 });
 
