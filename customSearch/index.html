@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mahdi's Search</title>
+  <meta name="description" content="Mahdi's Search is a custom search engine that searches your own curated resources and, if none match (or if resources fail to load), falls back to Wikipedia results.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="index, follow">
+  
+  <style>
+    /* 
+    Data Scheme for resources.txt (for SEO purposes):
+    
+    The file "resources.txt" should be a JSON array of resource objects. Each object must include:
+    
+    - "title": (string, required) The title of the resource.
+    - "url": (string, required) The absolute URL of the resource.
+    - "description": (string, required) A brief description.
+    - "keywords": (string, optional) A comma-separated list of keywords.
+    - "image": (string, optional) A URL to an image representing the resource.
+    
+    Example:
+    [
+      {
+        "title": "Example Website",
+        "url": "https://example.com",
+        "description": "A description of Example Website.",
+        "keywords": "example, sample, demo",
+        "image": "https://example.com/image.png"
+      },
+      ...
+    ]
+    */
+    
+    /* Light Mode Colors (inspired by HTML5 Boilerplate) */
+    :root {
+      --bg-color: #f3f2f0;
+      --text-color: #222;
+      --header-bg: #fff;
+      --header-border: #ccc;
+      --input-bg: #fff;
+      --input-text: #222;
+      --button-bg: #ddd;
+      --button-hover: #ccc;
+      --result-bg: #fff;
+      --result-border: #ccc;
+    }
+    
+    /* Dark Mode Equivalents (refined) */
+    .dark-mode {
+      --bg-color: #1e1e1e;
+      --text-color: #e0e0e0;
+      --header-bg: #2c2c2c;
+      --header-border: #444;
+      --input-bg: #333;
+      --input-text: #e0e0e0;
+      --button-bg: #444;
+      --button-hover: #555;
+      --result-bg: #2c2c2c;
+      --result-border: #444;
+    }
+    
+    /* Global Styles */
+    html {
+      font-size: 1em;
+      line-height: 1.4;
+      color: var(--text-color);
+    }
+    body {
+      font-family: monospace;
+      background-color: var(--bg-color);
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    /* Ensure text elements use the theme color */
+    p, span, li, h1, h2, h3, h4, h5, h6 {
+      color: var(--text-color);
+    }
+    a {
+      text-decoration: none;
+      color: var(--text-color);
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Header with Modern Toggle Switch and Personal Site Button */
+    header {
+      background-color: var(--header-bg);
+      padding: 10px 20px;
+      border-bottom: 1px solid var(--header-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header .left, header .right {
+      display: flex;
+      align-items: center;
+    }
+    header .logo {
+      font-size: 24px;
+      font-weight: bold;
+      /* In light mode, it uses the default text color.
+         In dark mode, force it to white */
+    }
+    .dark-mode header .logo {
+      color: #fff;
+    }
+    .toggle-wrapper {
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+    }
+    /* Modern Toggle Switch */
+    .toggle {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 26px;
+      margin-right: 10px;
+    }
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0;
+      right: 0; bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 26px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+    .toggle input:checked + .slider {
+      background-color: #2196F3;
+    }
+    .toggle input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+    #modeText {
+      font-size: 14px;
+      user-select: none;
+    }
+    /* Personal Site Button */
+    .personal-site {
+      padding: 8px 12px;
+      background-color: var(--button-bg);
+      border: 1px solid var(--header-border);
+      border-radius: 4px;
+      color: var(--text-color);
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+    .personal-site:hover {
+      background-color: var(--button-hover);
+    }
+    
+    /* Main Container */
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+    
+    /* Search Box */
+    .search-box {
+      display: flex;
+      border: 1px solid var(--header-border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      background-color: var(--input-bg);
+    }
+    .search-box input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      background-color: var(--input-bg);
+      color: var(--input-text);
+    }
+    .search-box input[type="text"]::placeholder {
+      color: #888;
+    }
+    .search-box button {
+      padding: 10px 20px;
+      background-color: var(--button-bg);
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      color: var(--text-color);
+      transition: background-color 0.3s;
+    }
+    .search-box button:hover {
+      background-color: var(--button-hover);
+    }
+    
+    /* Results Area */
+    #results {
+      background-color: var(--result-bg);
+      border: 1px solid var(--result-border);
+      border-radius: 4px;
+      padding: 20px;
+    }
+    .result {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--result-border);
+    }
+    .result:last-child {
+      border-bottom: none;
+    }
+    /* Result Title with Accent Backgrounds */
+    .result a.title {
+      font-size: 18px;
+      text-decoration: underline;
+      padding: 3px;
+      border-radius: 3px;
+      transition: background-color 0.3s;
+    }
+    /* Accent Classes with contrasting text color */
+    .result a.title.me { background-color: aqua; color: #000 !important; }
+    .result a.title.projects { background-color: #c2e235; color: #000 !important; }
+    .result a.title.blog { background-color: #d6513c; color: #000 !important; }
+    .result a.title.ep { background-color: #a556e8; color: #000 !important; }
+    .result p {
+      font-size: 14px;
+      margin-top: 5px;
+      color: var(--text-color);
+    }
+    .message {
+      text-align: center;
+      padding: 20px;
+      color: var(--text-color);
+    }
+  </style>
+</head>
+<body class="dark-mode">
+  <header>
+    <div class="left">
+      <div class="logo">Mahdi's Search</div>
+    </div>
+    <div class="right">
+      <div class="toggle-wrapper">
+        <label class="toggle">
+          <input type="checkbox" id="modeToggle">
+          <span class="slider"></span>
+        </label>
+        <span id="modeText">Dark Mode</span>
+      </div>
+      <a class="personal-site" href="https://mahdis.site/" target="_blank">My Site</a>
+    </div>
+  </header>
+  
+  <div class="container">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search your resources…" aria-label="Search">
+      <button id="searchBtn">Search</button>
+    </div>
+    <div id="results" aria-live="polite">
+      <div class="message">Enter a query and hit search.</div>
+    </div>
+  </div>
+  
+  <script>
+    // Toggle switch: switch between dark mode and light mode.
+    const modeToggle = document.getElementById("modeToggle");
+    const modeText = document.getElementById("modeText");
+    modeToggle.addEventListener("change", () => {
+      if (modeToggle.checked) {
+        document.body.classList.remove("dark-mode");
+        modeText.textContent = "Light Mode";
+      } else {
+        document.body.classList.add("dark-mode");
+        modeText.textContent = "Dark Mode";
+      }
+    });
+    
+    // Array of accent classes for custom resource result titles.
+    const accentClasses = ["me", "projects", "blog", "ep"];
+    
+    // Perform a search by first checking custom resources from resources.txt.
+    function performSearch(query) {
+      if (!query.trim()) {
+        displayMessage("Please enter a search query.");
+        return;
+      }
+      displayMessage("Searching custom resources...");
+      
+      fetch("resources.txt")
+        .then(response => response.json())
+        .then(data => {
+          // Filter resources based on title, description, or keywords (case-insensitive).
+          const filtered = data.filter(resource => {
+            const haystack = (resource.title + " " + resource.description + " " + (resource.keywords || "")).toLowerCase();
+            return haystack.includes(query.toLowerCase());
+          });
+          
+          if (filtered.length > 0) {
+            displayCustomResults(filtered);
+          } else {
+            displayMessage("No custom results found. Searching Wikipedia...");
+            performWikiSearch(query);
+          }
+        })
+        .catch(error => {
+          // If loading resources fails, fall back to Wikipedia search.
+          displayMessage("Error loading resources: " + error.message + ". Searching Wikipedia...");
+          performWikiSearch(query);
+        });
+    }
+    
+    // Display custom resource results.
+    function displayCustomResults(results) {
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = "";
+      results.forEach(resource => {
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result";
+        
+        const titleLink = document.createElement("a");
+        titleLink.href = resource.url;
+        titleLink.target = "_blank";
+        titleLink.textContent = resource.title;
+        // Assign a random accent class.
+        titleLink.className = "title " + accentClasses[Math.floor(Math.random() * accentClasses.length)];
+        resultDiv.appendChild(titleLink);
+        
+        const descPara = document.createElement("p");
+        descPara.textContent = resource.description;
+        resultDiv.appendChild(descPara);
+        
+        resultsDiv.appendChild(resultDiv);
+      });
+    }
+    
+    // Perform Wikipedia search and limit results to 3.
+    function performWikiSearch(query) {
+      const endpoint = "https://en.wikipedia.org/w/api.php";
+      const params = new URLSearchParams({
+        action: "query",
+        list: "search",
+        format: "json",
+        origin: "*",
+        srsearch: query
+      });
+      const url = endpoint + "?" + params.toString();
+      
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data.query && data.query.search && data.query.search.length > 0) {
+            // Limit to 3 wiki results.
+            const wikiResults = data.query.search.slice(0, 3);
+            displayWikiResults(wikiResults);
+          } else {
+            displayMessage("No results found.");
+          }
+        })
+        .catch(error => {
+          displayMessage("An error occurred: " + error.message);
+        });
+    }
+    
+    // Display Wikipedia results (for fallback).
+    function displayWikiResults(results) {
+      const resultsDiv = document.getElementById("results");
+      // Append a header for Wiki results.
+      const header = document.createElement("div");
+      header.className = "message";
+      header.textContent = "Wikipedia Results:";
+      resultsDiv.appendChild(header);
+      
+      results.forEach(item => {
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "result";
+        
+        const titleLink = document.createElement("a");
+        titleLink.href = `https://en.wikipedia.org/?curid=${item.pageid}`;
+        titleLink.target = "_blank";
+        titleLink.textContent = item.title;
+        titleLink.className = "title";
+        resultDiv.appendChild(titleLink);
+        
+        if (item.snippet) {
+          const snippetPara = document.createElement("p");
+          snippetPara.innerHTML = item.snippet + "...";
+          resultDiv.appendChild(snippetPara);
+        }
+        resultsDiv.appendChild(resultDiv);
+      });
+    }
+    
+    // Utility: Display a message in the results container.
+    function displayMessage(message) {
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = `<div class="message">${message}</div>`;
+    }
+    
+    // Event listeners for search actions.
+    document.getElementById("searchBtn").addEventListener("click", () => {
+      const query = document.getElementById("searchInput").value;
+      performSearch(query);
+    });
+    
+    document.getElementById("searchInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        performSearch(document.getElementById("searchInput").value);
+      }
+    });
+  </script>
+</body>
+</html>

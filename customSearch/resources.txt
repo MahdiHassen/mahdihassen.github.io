@@ -1,0 +1,23 @@
+[
+  {
+    "title": "Mahdi's Blog",
+    "url": "https://mahdis.site/blog",
+    "description": "Read Mahdi's thoughts on technology, programming, and life.",
+    "keywords": "Mahdi, blog, technology, programming",
+    "image": "https://mahdis.site/images/blog.png"
+  },
+  {
+    "title": "Mahdi's Projects",
+    "url": "https://mahdis.site/projects",
+    "description": "A showcase of Mahdi's open-source projects and collaborations.",
+    "keywords": "Mahdi, projects, open-source, coding",
+    "image": "https://mahdis.site/images/projects.png"
+  },
+  {
+    "title": "Mahdi's Personal Site",
+    "url": "https://mahdis.site/",
+    "description": "The personal homepage of Mahdi featuring links to all his works.",
+    "keywords": "Mahdi, personal, portfolio",
+    "image": "https://mahdis.site/images/home.png"
+  }
+]
