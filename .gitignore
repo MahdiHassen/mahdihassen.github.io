@@ -6,3 +6,4 @@ dist
 .cache
 package-lock.json
 .editorconfig
+*DS_Store
