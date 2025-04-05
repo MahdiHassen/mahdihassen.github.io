@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Mahdi's Search</title>
-  <meta name="description" content="Mahdi's Search is a custom search engine that looks through your curated resources and fills up with Wikipedia results when needed. Results are paginated 10 per page for easy navigation.">
+  <meta name="description" content="Mahdi's Search is a custom search engine that looks through your curated resources and fills up with Wikipedia results when needed. Results are paginated up to 5 pages (10 per page).">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="index, follow">
-  
+
   <style>
     /* 
     Data Scheme for resources.txt (for SEO purposes):
@@ -125,8 +125,10 @@
     .slider {
       position: absolute;
       cursor: pointer;
-      top: 0; left: 0;
-      right: 0; bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       background-color: #ccc;
       transition: 0.4s;
       border-radius: 26px;
@@ -226,12 +228,12 @@
       border-radius: 3px;
       transition: background-color 0.3s;
     }
-    /* Accent classes for custom results */
+    /* Accent classes for custom resources */
     .result a.title.me { background-color: aqua; color: #000 !important; }
     .result a.title.projects { background-color: #c2e235; color: #000 !important; }
     .result a.title.blog { background-color: #d6513c; color: #000 !important; }
     .result a.title.ep { background-color: #a556e8; color: #000 !important; }
-    /* Wiki results get no accent—so they remain plain */
+    /* Wikipedia results remain plain (no accent) */
     .result p {
       font-size: 14px;
       margin-top: 5px;
@@ -251,6 +253,11 @@
       padding: 5px 10px;
       font-size: 14px;
       cursor: pointer;
+    }
+    .pagination button.active {
+      font-weight: bold;
+      text-decoration: underline;
+      cursor: default;
     }
   </style>
 </head>
@@ -282,10 +289,13 @@
   </div>
   
   <script>
+    // Global variables
+    let customResults = [];
+    let wikiResults = [];
     let combinedResults = [];
     let currentPage = 1;
     const resultsPerPage = 10;
-    const accentClasses = ["me", "projects", "blog", "ep"];
+    // Maximum pages is 5 (i.e. 50 results max)
     
     // Toggle dark/light mode.
     const modeToggle = document.getElementById("modeToggle");
@@ -323,6 +333,7 @@
             return haystack.includes(query.toLowerCase());
           });
           filtered.sort((a, b) => relevanceScore(b, query) - relevanceScore(a, query));
+          // Mark source as "custom"
           filtered.forEach(item => { item.source = "custom"; });
           return filtered;
         });
@@ -355,36 +366,45 @@
         });
     }
     
-    // Perform search: fetch both custom and wiki results, then combine.
-    function performSearch(query) {
-      if (!query.trim()) {
-        displayMessage("Please enter a search query.");
-        return;
-      }
-      currentPage = 1;
-      displayMessage("Searching...");
-      Promise.all([fetchCustom(query), fetchWiki(query)]).then(values => {
-        const customResults = values[0];
-        const wikiResults = values[1];
-        // Always combine: custom results first, then wiki results.
-        combinedResults = customResults.concat(wikiResults);
-        if (combinedResults.length === 0) {
-          displayMessage("No results found.");
-        } else {
-          displayPage(currentPage);
-        }
-      }).catch(error => {
-        displayMessage("Error: " + error.message);
-      });
+    // Display a message in the results area.
+    function displayMessage(message) {
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = `<div class="message">${message}</div>`;
     }
     
-    // Display a specific page (10 results per page) and show pagination controls.
+    // Display pagination controls (numbered buttons, maximum 5 pages).
+    function displayPagination() {
+      const paginationDiv = document.createElement("div");
+      paginationDiv.className = "pagination";
+      // Limit combined results to at most 50 items.
+      const limitedResults = combinedResults.slice(0, 5 * resultsPerPage);
+      const totalPages = Math.ceil(limitedResults.length / resultsPerPage);
+      
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = i;
+        if (i === currentPage) {
+          btn.classList.add("active");
+          btn.disabled = true;
+        }
+        btn.addEventListener("click", () => {
+          currentPage = i;
+          displayPage(currentPage);
+        });
+        paginationDiv.appendChild(btn);
+      }
+      return paginationDiv;
+    }
+    
+    // Display the current page of results.
     function displayPage(page) {
       const resultsDiv = document.getElementById("results");
       resultsDiv.innerHTML = "";
+      // Limit combined results to at most 50.
+      const limitedResults = combinedResults.slice(0, 5 * resultsPerPage);
       const start = (page - 1) * resultsPerPage;
       const end = page * resultsPerPage;
-      const pageResults = combinedResults.slice(start, end);
+      const pageResults = limitedResults.slice(start, end);
       
       pageResults.forEach(result => {
         const resultDiv = document.createElement("div");
@@ -395,9 +415,10 @@
         titleLink.target = "_blank";
         titleLink.textContent = result.title;
         titleLink.className = "title";
-        // For custom results, assign a random accent class; for wiki, leave plain.
+        // For custom results, assign a random accent class; for wiki results, leave plain.
         if (result.source === "custom") {
-          titleLink.classList.add(accentClasses[Math.floor(Math.random() * accentClasses.length)]);
+          const accent = ["me", "projects", "blog", "ep"][Math.floor(Math.random() * 4)];
+          titleLink.classList.add(accent);
         }
         resultDiv.appendChild(titleLink);
         
@@ -408,43 +429,41 @@
         resultsDiv.appendChild(resultDiv);
       });
       
-      // Add pagination controls.
-      const paginationDiv = document.createElement("div");
-      paginationDiv.className = "pagination";
-      
-      if (currentPage > 1) {
-        const prevBtn = document.createElement("button");
-        prevBtn.textContent = "Previous";
-        prevBtn.addEventListener("click", () => {
-          currentPage--;
-          displayPage(currentPage);
-        });
-        paginationDiv.appendChild(prevBtn);
-      }
-      
-      if (end < combinedResults.length) {
-        const nextBtn = document.createElement("button");
-        nextBtn.textContent = "Next";
-        nextBtn.addEventListener("click", () => {
-          currentPage++;
-          displayPage(currentPage);
-        });
-        paginationDiv.appendChild(nextBtn);
-      }
-      
-      resultsDiv.appendChild(paginationDiv);
+      // Append pagination controls if there is more than one page.
+      const pagination = displayPagination();
+      resultsDiv.appendChild(pagination);
     }
     
-    function displayMessage(message) {
-      const resultsDiv = document.getElementById("results");
-      resultsDiv.innerHTML = `<div class="message">${message}</div>`;
+    // Perform search: load custom results first, then wiki results.
+    function performSearch(query) {
+      if (!query.trim()) {
+        displayMessage("Please enter a search query.");
+        return;
+      }
+      currentPage = 1;
+      displayMessage("Searching custom resources...");
+      // Start by fetching custom results.
+      fetchCustom(query).then(data => {
+        customResults = data;
+        combinedResults = customResults.slice(); // clone array
+        displayPage(currentPage);
+      });
+      // Then fetch Wikipedia results.
+      fetchWiki(query).then(data => {
+        wikiResults = data;
+        // Combine: custom results come first, then wiki results.
+        combinedResults = customResults.concat(wikiResults);
+        displayPage(currentPage);
+      }).catch(error => {
+        console.error("Wiki search error: " + error.message);
+      });
     }
     
+    // Event listeners.
     document.getElementById("searchBtn").addEventListener("click", () => {
       const query = document.getElementById("searchInput").value;
       performSearch(query);
     });
-    
     document.getElementById("searchInput").addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         performSearch(document.getElementById("searchInput").value);
