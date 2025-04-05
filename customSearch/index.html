@@ -43,6 +43,7 @@
       --button-hover: #ccc;
       --result-bg: #fff;
       --result-border: #ccc;
+      --accent-pagination-color: #a556e8; /* using the 'ep' accent */
     }
     
     /* Dark Mode Equivalents (refined) */
@@ -57,6 +58,7 @@
       --button-hover: #555;
       --result-bg: #2c2c2c;
       --result-border: #444;
+      --accent-pagination-color: #a556e8;
     }
     
     /* Global Styles */
@@ -233,7 +235,7 @@
     .result a.title.projects { background-color: #c2e235; color: #000 !important; }
     .result a.title.blog { background-color: #d6513c; color: #000 !important; }
     .result a.title.ep { background-color: #a556e8; color: #000 !important; }
-    /* Wikipedia results remain plain (no accent) */
+    /* Wikipedia results remain plain */
     .result p {
       font-size: 14px;
       margin-top: 5px;
@@ -244,15 +246,23 @@
       padding: 20px;
       color: var(--text-color);
     }
+    /* Pagination: monospaced, using one accent color, no border box */
     .pagination {
       margin-top: 20px;
       text-align: center;
     }
     .pagination button {
-      margin: 0 5px;
-      padding: 5px 10px;
-      font-size: 14px;
+      background: none;
+      border: none;
+      font-family: monospace;
+      font-size: 16px;
+      color: var(--accent-pagination-color);
+      margin: 0 8px;
       cursor: pointer;
+      padding: 0;
+    }
+    .pagination button:hover {
+      text-decoration: underline;
     }
     .pagination button.active {
       font-weight: bold;
@@ -326,7 +336,7 @@
       return count;
     }
     
-    // Fetch custom resources from resources.txt.
+    // Fetch custom resources.
     function fetchCustom(query) {
       return fetch("resources.txt")
         .then(response => response.json())
@@ -335,11 +345,10 @@
             const haystack = (resource.title + " " + resource.description + " " + (resource.keywords || "")).toLowerCase();
             return haystack.includes(query.toLowerCase());
           });
-          // Sort by relevance.
           filtered.sort((a, b) => relevanceScore(b, query) - relevanceScore(a, query));
-          // Mark each as "custom" and assign a fixed accent.
           filtered.forEach(item => { 
             item.source = "custom";
+            // Assign a fixed accent so it doesn't change later.
             item.accent = accentClasses[Math.floor(Math.random() * accentClasses.length)];
           });
           return filtered;
@@ -373,17 +382,16 @@
         });
     }
     
-    // Display a message.
+    // Display message.
     function displayMessage(message) {
       const resultsDiv = document.getElementById("results");
       resultsDiv.innerHTML = `<div class="message">${message}</div>`;
     }
     
-    // Display pagination controls (numbered buttons, up to 5 pages).
+    // Display pagination controls.
     function displayPagination() {
       const paginationDiv = document.createElement("div");
       paginationDiv.className = "pagination";
-      // Limit combined results to at most 50.
       const limitedResults = combinedResults.slice(0, 5 * resultsPerPage);
       const totalPages = Math.ceil(limitedResults.length / resultsPerPage);
       
@@ -403,11 +411,10 @@
       return paginationDiv;
     }
     
-    // Display a specific page.
+    // Display the current page.
     function displayPage(page) {
       const resultsDiv = document.getElementById("results");
       resultsDiv.innerHTML = "";
-      // Limit to 50 combined results.
       const limitedResults = combinedResults.slice(0, 5 * resultsPerPage);
       const start = (page - 1) * resultsPerPage;
       const end = page * resultsPerPage;
@@ -422,7 +429,6 @@
         titleLink.target = "_blank";
         titleLink.textContent = result.title;
         titleLink.className = "title";
-        // If the result is custom, use its pre-assigned accent class.
         if (result.source === "custom") {
           titleLink.classList.add(result.accent);
         }
@@ -439,7 +445,7 @@
       resultsDiv.appendChild(pagination);
     }
     
-    // Perform search: load custom resources immediately then update with wiki results.
+    // Perform search.
     function performSearch(query) {
       if (!query.trim()) {
         displayMessage("Please enter a search query.");
@@ -448,17 +454,14 @@
       currentPage = 1;
       displayMessage("Searching custom resources...");
       
-      // Start fetching custom results.
       fetchCustom(query).then(data => {
         customResults = data;
-        combinedResults = customResults.slice(); // initially, just custom results.
+        combinedResults = customResults.slice();
         displayPage(currentPage);
       });
       
-      // Meanwhile, fetch wiki results.
       fetchWiki(query).then(data => {
         wikiResults = data;
-        // Combine: custom results first, then wiki results.
         combinedResults = customResults.concat(wikiResults);
         displayPage(currentPage);
       }).catch(error => {
@@ -470,6 +473,7 @@
       const query = document.getElementById("searchInput").value;
       performSearch(query);
     });
+    
     document.getElementById("searchInput").addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         performSearch(document.getElementById("searchInput").value);
