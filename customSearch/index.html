@@ -43,7 +43,8 @@
       --button-hover: #ccc;
       --result-bg: #fff;
       --result-border: #ccc;
-      --accent-pagination-color: #a556e8; /* using the 'ep' accent */
+      --accent-pagination-color: #a556e8; /* default accent for pagination */
+      --active-pagination-color: #ff9800; /* active page number color */
     }
     
     /* Dark Mode Equivalents (refined) */
@@ -59,6 +60,7 @@
       --result-bg: #2c2c2c;
       --result-border: #444;
       --accent-pagination-color: #a556e8;
+      --active-pagination-color: #ff9800;
     }
     
     /* Global Styles */
@@ -246,7 +248,7 @@
       padding: 20px;
       color: var(--text-color);
     }
-    /* Pagination: monospaced, using one accent color, no border box */
+    /* Pagination styling: monospaced, smaller, with active page in a different color */
     .pagination {
       margin-top: 20px;
       text-align: center;
@@ -255,9 +257,9 @@
       background: none;
       border: none;
       font-family: monospace;
-      font-size: 16px;
+      font-size: 12px;
       color: var(--accent-pagination-color);
-      margin: 0 8px;
+      margin: 0 5px;
       cursor: pointer;
       padding: 0;
     }
@@ -265,8 +267,9 @@
       text-decoration: underline;
     }
     .pagination button.active {
-      font-weight: bold;
+      font-weight: normal;
       text-decoration: underline;
+      color: var(--active-pagination-color);
       cursor: default;
     }
   </style>
@@ -304,10 +307,7 @@
     let wikiResults = [];
     let combinedResults = [];
     let currentPage = 1;
-    const resultsPerPage = 10;
-    // Maximum pages is 5 (i.e. maximum 50 results total).
-    
-    // Define our accent classes.
+    const resultsPerPage = 10; // 10 results per page, max 50 results total.
     const accentClasses = ["me", "projects", "blog", "ep"];
     
     // Toggle dark/light mode.
@@ -348,7 +348,7 @@
           filtered.sort((a, b) => relevanceScore(b, query) - relevanceScore(a, query));
           filtered.forEach(item => { 
             item.source = "custom";
-            // Assign a fixed accent so it doesn't change later.
+            // Assign a fixed accent.
             item.accent = accentClasses[Math.floor(Math.random() * accentClasses.length)];
           });
           return filtered;
@@ -411,7 +411,7 @@
       return paginationDiv;
     }
     
-    // Display the current page.
+    // Display current page of results.
     function displayPage(page) {
       const resultsDiv = document.getElementById("results");
       resultsDiv.innerHTML = "";
@@ -445,7 +445,7 @@
       resultsDiv.appendChild(pagination);
     }
     
-    // Perform search.
+    // Perform search: lazy load custom results first, then update with wiki results.
     function performSearch(query) {
       if (!query.trim()) {
         displayMessage("Please enter a search query.");
@@ -473,7 +473,6 @@
       const query = document.getElementById("searchInput").value;
       performSearch(query);
     });
-    
     document.getElementById("searchInput").addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         performSearch(document.getElementById("searchInput").value);
