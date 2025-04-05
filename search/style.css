@@ -160,7 +160,7 @@ header .logo {
   overflow-y: auto;
   z-index: 1000;
   display: none;
-  color: var(--input-text);  /* Ensure text is readable in both modes */
+  color: var(--input-text);
 }
 #suggestions ul {
   list-style: none;
@@ -263,4 +263,36 @@ header .logo {
   text-decoration: underline;
   color: var(--active-pagination-color);
   cursor: default;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  header .left,
+  header .right {
+    width: 100%;
+    text-align: center;
+    margin: 5px 0;
+  }
+  .container {
+    width: 95%;
+    margin: 10px auto;
+    padding: 10px;
+  }
+  .search-box {
+    flex-direction: column;
+  }
+  .search-box input[type="text"],
+  .search-box button {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+  }
+  #suggestions {
+    left: 5%;
+    right: 5%;
+  }
 }
