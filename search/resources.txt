@@ -1,4 +1,6 @@
 [
+
+
   {
     "title": "Mahdi's Blog",
     "url": "https://mahdis.site/blog",
@@ -19,5 +21,45 @@
     "description": "my homepage",
     "keywords": "Mahdi, personal, portfolio",
     "image": "https://mahdis.site/images/home.png"
+  },
+  {
+    "title": "Chirpy Jekyll Theme",
+    "url": "https://chirpy.cotes.page/",
+    "description": "A minimal, responsive, and feature-rich Jekyll theme for technical writing.",
+    "keywords": "Jekyll, theme, Chirpy, responsive, technical writing"
+  },
+
+  {
+    "title": "Aqueux — Dynamic wallpapers based on a classic",
+    "url": "https://hector.me/aqueux",
+    "description": "A collection of ultra high-resolution dynamic wallpapers inspired by an OS X classic, available in several wide-gamut color editions for desktop and mobile devices.",
+    "keywords": "Aqueux, dynamic wallpapers, OS X, high-resolution, desktop, mobile"
+  },
+
+  {
+    "title": "Onshape Sign In",
+    "url": "https://cad.onshape.com/signin",
+    "description": "Sign in to Onshape's cloud-native product development platform to access CAD, data management, collaboration tools, and real-time analytics.",
+    "keywords": "Onshape, sign in, CAD, cloud-native, product development, collaboration"
+  },
+
+  {
+    "title": "The Death Generator",
+    "url": "https://deathgenerator.com/#gallery",
+    "description": "An online tool by Foone Turing that allows users to create custom, fake video game screenshots by inputting their own text into classic game scenes.",
+    "keywords": "Death Generator, fake video game screenshots, Foone Turing, classic games, meme generator, meme"
+  },
+
+  {
+    "title": "8th Wall Documentation",
+    "url": "https://www.8thwall.com/docs/",
+    "description": "Comprehensive developer documentation for 8th Wall's WebAR and WebVR platform, including guides, API references, and tutorials.",
+    "keywords": "8th Wall, documentation, WebAR, WebVR, API, tutorials"
   }
+
+
+
+
+
+
 ]
