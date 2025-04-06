@@ -104,6 +104,13 @@
     "url": "https://affinity.serif.com/en-us/designer/",
     "description": "Affinity Designer is an award-winning vector graphics software setting the new industry standard in the world of design. Available for Windows, macOS, and iPad, it offers a super-smooth, feature-packed experience for professional illustrators, web designers, game developers, and other creatives.",
     "keywords": "Affinity Designer, vector graphics software, graphic design, illustration, UI design, macOS, Windows, iPad"
+  },
+
+  {
+    "title": "RoboCop Gameboy Title Theme (best quality)",
+    "url": "https://www.youtube.com/watch?v=wGIKnn-COS4",
+    "description": "A high-quality recording of the title theme from the RoboCop game on the Game Boy, captured from an actual Game Boy device.",
+    "keywords": "RoboCop, Game Boy, title theme, video game music, Jonathan Dunn"
   }
 
 
