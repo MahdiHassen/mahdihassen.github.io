@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Two-Panel Knowledge Desk</title>
+  <style>
+    :root {
+      --background-light: #f4f4f4;
+      --text-light: #000;
+      --panel-bg-light: white;
+      --box-bg-light: white;
+      --resize-handle-light: #ccc;
+      --icon-light: #000;
+      --icon-active-light: #007acc;
+
+      --background-dark: #121212;
+      --text-dark: #fff;
+      --panel-bg-dark: #1e1e1e;
+      --box-text-dark: #fff;
+      --resize-handle-dark: #444;
+      --icon-dark: #fff;
+      --icon-active-dark: #00b7ff;
+    }
+
+    body.darken-mode .box,
+    body.darken-mode .fullscreen-btn,
+    body.darken-mode .close-btn {
+      filter: invert(1) hue-rotate(180deg);
+}
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: monospace;
+      background: var(--background-light);
+      color: var(--text-light);
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .layout {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .main-area {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow-y: auto;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE 10+ */
+    }
+
+    .main-area::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      padding: 40px 40px 160px;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    .box {
+      padding: 28px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s;
+      border-radius: 0;
+      font-family: inherit;
+      background: var(--box-bg-light);
+      color: var(--text-light);
+      font-size: 16px;
+    }
+
+    .box:hover {
+      background-color: rgb(60, 58, 61) !important;
+      color: white !important;
+    }
+
+    .panel {
+      width: 33vw;
+      max-width: 50vw;
+      background: var(--background-light);
+      color: var(--text-light);
+      height: 100%;
+      display: none;
+      flex-direction: column;
+      resize: horizontal;
+      box-sizing: border-box;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+      font-family: inherit;
+    }
+
+    .panel.active {
+      display: flex;
+    }
+
+    .panel-scroll {
+      overflow-y: auto;
+      padding: 20px;
+      flex-grow: 1;
+      font-size: 16px;
+    }
+
+    .resize-handle {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      cursor: ew-resize;
+      background: var(--resize-handle-light);
+      z-index: 10;
+    }
+
+    .close-btn, .fullscreen-btn {
+      font-size: 20px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      width: 12px;
+      height: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .close-btn {
+      color: var(--icon-light);
+      position: relative;
+      top: -1px;
+    }
+
+    .fullscreen-btn {
+      border: 2px solid var(--icon-light);
+      box-sizing: border-box;
+    }
+
+    body.fullscreen-mode .fullscreen-btn {
+      border-color: var(--icon-active-light);
+    }
+
+    .note-control {
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 10px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body:not(.force-light-mode) {
+        html, body {
+          background: var(--background-dark);
+          color: var(--text-dark);
+        }
+
+        .box {
+          color: var(--box-text-dark);
+        }
+
+        .panel {
+          background: var(--background-dark);
+          color: var(--text-dark);
+        }
+
+        .resize-handle {
+          background: var(--resize-handle-dark);
+        }
+
+        .close-btn {
+          color: var(--icon-dark);
+        }
+
+        .fullscreen-btn {
+          border-color: var(--icon-dark);
+        }
+
+        body.fullscreen-mode .fullscreen-btn {
+          border-color: var(--icon-active-dark);
+        }
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      body.no-panel-open h3 {
+        margin-top: 80px;
+      }
+
+      body:not(.no-panel-open) h3 {
+        margin-top: 16px;
+      }
+    }
+  </style>
+  <style>
+    .close-btn:hover,
+    .fullscreen-btn:hover {
+      color: #d6513c !important;
+    }
+
+    body.fullscreen-mode .fullscreen-btn:hover {
+      color: #d6513c !important;
+    }
+
+    body.fullscreen-mode .fullscreen-btn {
+      color: #d6513c !important;
+    }
+  </style>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="mainContent">
+    <h3>
+      <a href="../">.../notes</a>
+    </h3>
+  </div>
+  <div class="layout">
+    <div class="main-area">
+      <div class="container" id="desk"></div>
+    </div>
+    <div class="panel" id="panel1">
+      <div class="resize-handle" id="resize1"></div>
+      <div class="note-control">
+        <button class="fullscreen-btn" onclick="toggleFullscreen(1)"></button>
+        <button class="close-btn" onclick="closePanel(1)">&times;</button>
+      </div>
+      <div class="panel-scroll">
+        <h2 id="panel1-title"></h2>
+        <div id="panel1-content"></div>
+      </div>
+    </div>
+    <div class="panel" id="panel2">
+      <div class="resize-handle" id="resize2"></div>
+      <div class="note-control">
+        <button class="fullscreen-btn" onclick="toggleFullscreen(2)"></button>
+        <button class="close-btn" onclick="closePanel(2)">&times;</button>
+      </div>
+      <div class="panel-scroll">
+        <h2 id="panel2-title"></h2>
+        <div id="panel2-content"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let notes = [];
+    const FORCE_LIGHT_MODE = true;
+
+    function loadNotesFromFile() {
+      fetch('notes.txt')
+        .then(response => response.text())
+        .then(data => {
+          try {
+            notes = JSON.parse(data);
+          } catch (e) {
+            console.error('Invalid notes.txt format. Must be valid JSON array.');
+            notes = [];
+          }
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+          const useDark = FORCE_LIGHT_MODE ? false : prefersDark.matches;
+          if (FORCE_LIGHT_MODE) {
+            document.body.classList.add('force-light-mode');
+          }
+          renderNotes(useDark);
+          if (!DISABLE_DARK_MODE) {
+            prefersDark.addEventListener('change', (e) => renderNotes(e.matches));
+          }
+          // Explicitly close both panels and set no-panel-open after loading
+          closePanel(1);
+          closePanel(2);
+          document.body.classList.add('no-panel-open');
+        })
+        .catch(err => {
+          console.error('Failed to load notes.txt:', err);
+        });
+    }
+
+    let leftNote = null;
+    let rightNote = null;
+    let isFullscreenMode = false;
+
+    const desk = document.getElementById('desk');
+
+    const invertColor = (hex) => {
+      try {
+        let color = hex.replace('#', '');
+        if (color.length === 3) color = color.split('').map(c => c + c).join('');
+        const r = 255 - parseInt(color.substr(0, 2), 16);
+        const g = 255 - parseInt(color.substr(2, 2), 16);
+        const b = 255 - parseInt(color.substr(4, 2), 16);
+        return `rgb(${r}, ${g}, ${b})`;
+      } catch {
+        return hex;
+      }
+    };
+
+    const renderNotes = (darkMode) => {
+      desk.innerHTML = '';
+      notes.forEach((note, index) => {
+        const label = document.createElement('div');
+        label.className = 'box';
+        label.textContent = note.title;
+
+        label.setAttribute('style', note.style);
+        if (darkMode) {
+          label.style.filter = 'invert(1) hue-rotate(180deg)';
+          label.style.color = '#000'; // Appears light due to inversion
+        } else {
+          label.style.filter = '';
+          label.style.color = '';
+        }
+
+        label.addEventListener('click', () => {
+          if (isFullscreenMode) {
+            closePanel(1);
+            closePanel(2);
+            setNotePanel('right', note);
+            document.getElementById('panel2').style.width = '50vw';
+          } else {
+            openNote(note, index);
+          }
+        });
+
+        desk.appendChild(label);
+      });
+    };
+
+    loadNotesFromFile();
+
+    function openNote(note, index) {
+      const isMobile = window.innerWidth <= 600;
+
+      if (isMobile) {
+        closePanel(1);
+        closePanel(2);
+        setNotePanel('right', note);
+        document.getElementById('panel2').style.width = '100vw';
+        document.body.classList.add('fullscreen-mode');
+        isFullscreenMode = true;
+        return;
+      }
+
+      if (rightNote === null && leftNote === null) {
+        setNotePanel('right', note);
+        document.getElementById('panel2').style.width = '50vw';
+      } else if (rightNote !== null && leftNote === null) {
+        const panel2 = document.getElementById('panel2');
+        const currentWidth = panel2.offsetWidth;
+        if (currentWidth > window.innerWidth * 0.33) {
+          panel2.style.width = '33vw';
+        }
+        setNotePanel('left', note);
+        document.getElementById('panel1').style.width = '33vw';
+      } else {
+        if (leftNote && (!rightNote || leftNote.timestamp < rightNote.timestamp)) {
+          setNotePanel('left', note);
+        } else {
+          setNotePanel('right', note);
+        }
+      }
+    }
+
+    function setNotePanel(side, note) {
+      const now = Date.now();
+      const panelNum = side === 'left' ? 1 : 2;
+      const panel = document.getElementById(`panel${panelNum}`);
+      const title = document.getElementById(`panel${panelNum}-title`);
+      const content = document.getElementById(`panel${panelNum}-content`);
+
+      title.textContent = note.title;
+      content.innerHTML = note.content;
+      panel.classList.add('active');
+
+      document.body.classList.remove('no-panel-open');
+      document.body.classList.add('has-panel-open');
+
+      if (side === 'left') {
+        leftNote = { note, timestamp: now };
+      } else {
+        rightNote = { note, timestamp: now };
+      }
+    }
+
+    function closePanel(panelNum) {
+      const panel = document.getElementById(`panel${panelNum}`);
+      const title = document.getElementById(`panel${panelNum}-title`);
+      const content = document.getElementById(`panel${panelNum}-content`);
+      panel.classList.remove('active');
+      title.textContent = '';
+      content.innerHTML = '';
+
+      if (panelNum === 1) {
+        leftNote = null;
+      } else {
+        rightNote = null;
+      }
+
+      if (!document.getElementById('panel1').classList.contains('active') &&
+          !document.getElementById('panel2').classList.contains('active')) {
+        document.body.classList.add('no-panel-open');
+        document.body.classList.remove('has-panel-open');
+      }
+    }
+
+    function toggleFullscreen(panelNum) {
+      const otherNum = panelNum === 1 ? 2 : 1;
+      const panel = document.getElementById(`panel${panelNum}`);
+
+      if (isFullscreenMode) {
+        document.body.classList.remove('fullscreen-mode');
+        isFullscreenMode = false;
+        panel.style.width = '';
+
+        if (panelNum === 1 && leftNote) {
+          rightNote = leftNote;
+          leftNote = null;
+          setNotePanel('right', rightNote.note);
+          document.getElementById('panel1').classList.remove('active');
+        }
+
+        if (!document.getElementById('panel1').classList.contains('active') &&
+            !document.getElementById('panel2').classList.contains('active')) {
+          document.body.classList.add('no-panel-open');
+        }
+      } else {
+        document.body.classList.add('fullscreen-mode');
+        isFullscreenMode = true;
+        closePanel(otherNum);
+        panel.style.width = '50vw';
+        document.body.classList.remove('no-panel-open');
+      }
+    }
+
+    function enableResize(handle, panel) {
+      handle.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        document.body.style.cursor = 'ew-resize';
+        const startX = e.clientX;
+        const startWidth = panel.offsetWidth;
+
+        function doDrag(e) {
+          const newWidth = startWidth + (startX - e.clientX);
+          const maxWidth = window.innerWidth * 0.66;
+          const minWidth = window.innerWidth * 0.1;
+
+          const otherPanel = panel.id === 'panel1' ? document.getElementById('panel2') : document.getElementById('panel1');
+          const otherWidth = otherPanel.classList.contains('active') ? otherPanel.offsetWidth : 0;
+          if (newWidth >= minWidth && newWidth + otherWidth <= maxWidth) {
+            panel.style.width = `${newWidth}px`;
+          }
+        }
+
+        function stopDrag() {
+          document.body.style.cursor = '';
+          window.removeEventListener('mousemove', doDrag);
+          window.removeEventListener('mouseup', stopDrag);
+        }
+
+        window.addEventListener('mousemove', doDrag);
+        window.addEventListener('mouseup', stopDrag);
+      });
+    }
+
+    enableResize(document.getElementById('resize1'), document.getElementById('panel1'));
+    enableResize(document.getElementById('resize2'), document.getElementById('panel2'));
+  </script>
+</body>
+</html>

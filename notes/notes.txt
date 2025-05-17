@@ -1,0 +1,7 @@
+[
+  { "title": "#3 Hypervisors", "style": "background: #c2e235;", "content": "<p></p>" },
+
+  { "title": "#2 Rents rule", "style": "background: #a556e8;", "content": "" },
+
+  { "title": "# 1 How does this work?", "style": "background: #d6513c;", "content": "<p><img src='https://via.placeholder.com/150'></p>" }
+]
