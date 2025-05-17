@@ -1,7 +1,13 @@
 [
   { "title": "#3 Hypervisors", "style": "background: #c2e235;", "content": "<p></p>" },
 
-  { "title": "#2 Rents rule", "style": "background: #a556e8;", "content": "" },
+  { "title": "#2: Rents rule", "style": "background: #a556e8;", "content": "" },
 
-  { "title": "# 1 How does this work?", "style": "background: #d6513c;", "content": "<p><img src='https://via.placeholder.com/150'></p>" }
+  { "title": "#1: Notes?", "style": "background: #d6513c;",
+  "content": <p>I started these notes because I want to keep a personal knowledgebase of things. I was initially going to use my blog for this, but writing an entire blog post for something small and unorganized felt like a waste.</p>
+             <p>This will mostly consist me trying to learn technical concepts by writing about them. For example my next note will probably be on Rent&#39;s rule, which is a concept I&#39;m learning in my Network-on-Chip class.</p>
+             <p>I also expect there be a fair share of notes which are only used to keep track of resources or anything really.</p>
+             <p>On here you can open up multiple notes side by side (desktop exclusive). The point of this page is simulate a cluttered desk. I think wiki&#39;s are good for sharing knowledge to the public, but its much easier to mentally keep track of things if you just see it all in front of you.</p>
+             <p>Anyway, this kind of reads like a blog post at the point, so I&#39;ll stop it here.</p>." }
+
 ]
