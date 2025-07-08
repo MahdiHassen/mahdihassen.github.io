@@ -74,7 +74,7 @@ body {
       padding: 2.5px;
 
       &:hover{
-        background-color: rgb(60, 58, 61) !important;
+        background-color: var(--hover-grey) !important;
         color: white !important;
       }
     }
@@ -89,26 +89,29 @@ body {
 
     .button-aqua {
       a {
-        background-color: aqua;
+        background-color: var(--aqua);
+        @media (prefers-color-scheme: dark) {
+          background-color: var(--aqua);
+        }
       }
     }
 
-    &.projects {
+    .button-lime {
       a {
         background-color: var(--lime);
 
       }
     }
 
-    &.blog {
+    .button-red {
       a {
-        background-color: #d6513c;
+        background-color: var(--red);
       }
     }
 
     .button-purple {
       a {
-        background-color: #a556e8;
+        background-color: var(--purple);
       }
     }
 
@@ -122,11 +125,6 @@ body {
       font-weight: bold;
       font-size: 20px;
       margin: 0;
-    }
-
-    .text{
-      margin-bottom: 16px;
-      margin-top: 8px;
     }
 
     p {
@@ -144,7 +142,7 @@ body {
 
   }
 
-  .sectionContent{
+  .sectionContent {
 
     font-size: 18px;
     max-width: 720px;
@@ -155,6 +153,11 @@ body {
     a {
       color: inherit;
       padding: 2px;
+
+      &:hover{
+        background-color: var(--hover-grey) !important;
+        color: white !important;
+      }
     }
 
 
@@ -188,7 +191,7 @@ body {
       padding: 1px;
     }
 
-    p{
+    p {
       margin: 0;
       color: #555555;
       font-size: 16px;
@@ -196,105 +199,52 @@ body {
 
     }
 
-    .text{
+    .text {
       text-align: left;
     }
-
   }
 
+  .blogContent{
 
-
-  .photopile {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+    font-size: 18px;
     max-width: 720px;
     margin: 0 auto;
-  }
+    padding-top: 0;
 
-  .photopile figure {
-    display: inline-block;
-    background: white;
-    box-shadow: 0 0 0.4rem rgb(0,0,0,0.75);
-    transform: rotate(2deg);
-    margin: 0 -25px;
-
-    &:hover{
-
-      box-shadow: 0 0 0.6rem rgb(60, 58, 61);
+    .date {
+      margin: 0;
+      color: #555555;
+      font-size: 16px;
+      margin-bottom: 8px;
 
     }
 
-  }
+    .title {
+      text-align: left;
+      font-weight: bold;
+      margin-bottom: 0;
+      margin-top: 16px;
+      font-size: 24px;
 
-  .photopile figure img {
-    max-width: calc(100% - 2rem);
-    margin: 1rem 1rem 0 1rem;
-    border: 2px rgb(0,0,0,0.55) inset;
-    object-fit: cover;
-    object-position: center;
-    height: 200px;
-    width: 200px;
+      @media (max-width: 600px) {
+        margin-top: 80px;
+      }
 
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
 
-  }
-  .photopile figcaption, .popovers figcaption {
-    font-family: monospace/* set this to have it match the rest of the page */;
-    text-align: center;
-    margin: 0.5rem 1rem 1rem 1rem;
-    font-size: 1rem;
-    color: black;
-    max-width: 200px;
-  }
-  .photopile button {
-    background: none;
-    border: none;
-    max-width: 40%;
-  }
-  .photopile button:hover, .photopile button:focus {
-    z-index: 3;
-    cursor:pointer;
-  }
-  .photopile button:nth-child(2n) {
-    transform: rotate(-10deg);
-  }
-  .photopile button:nth-child(3n) {
-    transform: rotate(5deg);
-  }
-  .photopile button:nth-child(4n) {
-    transform: rotate(4deg);
-  }
-  .photopile button:nth-child(5n) {
-    transform: rotate(-2deg);
-  }
-  .photopile button:nth-child(6n) {
-    transform: rotate(-7deg);
-  }
-  :popover-open {
-    border: none;
-    box-shadow: 0 0 0.4rem rgb(0,0,0,0.75);
-    position: fixed;
-    top: 50vh;
-    left: 50vw;
-    transform: translate(-50%,-50%);
-  }
-  .popovers figure:popover-open {
-    display: block;
-    background: white;
-  }
-  .popovers figure:popover-open figcaption {
-    margin: 2.5vmin 1rem 4vmin 1rem;
-    font-size: 175%;
-    color: black;
-  }
-  .popovers figure:popover-open img {
-    margin: 4vmin 4vmin 0 4vmin;
-    width: 80vmin;
-    border: 4px rgb(0,0,0,0.55) inset;
-  }
+    }
+
+    p {
+      font-size: 16px;
+      text-align: left;
+      padding-bottom: 8px;
+    }
 
 
+  }
 }
 
 
