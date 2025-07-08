@@ -226,10 +226,10 @@ header .logo {
   border-radius: 3px;
   transition: background-color 0.3s;
 }
-.result a.title.me { background-color: aqua; color: #000 !important; }
-.result a.title.projects { background-color: #c2e235; color: #000 !important; }
-.result a.title.blog { background-color: #d6513c; color: #000 !important; }
-.result a.title.ep { background-color: #a556e8; color: #000 !important; }
+.result a.title.button-aqua { background-color: aqua; color: #000 !important; }
+.result a.title.button-lime { background-color: #c2e235; color: #000 !important; }
+.result a.title.button-red { background-color: #d6513c; color: #000 !important; }
+.result a.title.button-purple { background-color: #a556e8; color: #000 !important; }
 .result p {
   font-size: 14px;
   margin-top: 5px;
