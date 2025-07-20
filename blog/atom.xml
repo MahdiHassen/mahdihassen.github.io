@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title>Mahdi's blog</title>
+  <subtitle></subtitle>
+  <link href="https://mahdis.site/blog/" />
+  <updated>2025-06-01T00:00:00Z</updated>
+  <id>https://mahdis.site/blog/</id>
+
+  <author>
+    <name>Mahdi Hassen</name>
+  </author>
+
+  <entry>
+    <title>on the limits of knowledge</title>
+    <link href="https://mahdis.site/blog/on-the-limits-of-knowledge" />
+    <id>https://mahdis.site/blog/on-the-limits-of-knowledge</id>
+    <updated>2025-06-01T00:00:00Z</updated>
+    <category term="thought" />
+  </entry>
+
+  <entry>
+    <title>on being removed</title>
+    <link href="https://mahdis.site/blog/on-being-removed" />
+    <id>https://mahdis.site/blog/on-being-removed</id>
+    <updated>2025-05-11T00:00:00Z</updated>
+    <category term="thought" />
+  </entry>
+
+  <entry>
+    <title>on social media and the technopoly</title>
+    <link href="https://mahdis.site/blog/on-social-media-and-technopoly" />
+    <id>https://mahdis.site/blog/on-social-media-and-technopoly</id>
+    <updated>2025-02-16T00:00:00Z</updated>
+    <category term="thought" />
+    <category term="short" />
+  </entry>
+
+</feed>
