@@ -6,6 +6,9 @@
   --purple: #a556e8;
   --bg-white: #f3f2f0;
   --hover-grey: #3C3A3D;
+  --navy: #0095ff;
+  --green: #78dc24;
+  --orange: #d18232;
 
   /* dark mode colours */
 
@@ -39,6 +42,64 @@ body {
       text-decoration: none;
       color: inherit;
     }
+  }
+
+  /* ===== recommend form ===== */
+  .recommend-form {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;   /* horizontally center every child */
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .recommend-form label {
+    text-transform: lowercase;
+    font-size: 18px;
+    justify-content: left;
+    width: 80%;
+    text-align: left;
+  }
+
+  .recommend-form input,
+  .recommend-form textarea {
+    font-family: inherit;
+    font-size: 16px;
+    padding: 4px;
+    border: 1px solid #222;
+    width: 80%;
+    justify-content: center;
+  }
+
+  .recommend-form textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  /* button wrapper inside form */
+  .recommend-form .button-aqua {
+    display: inline-block;
+  }
+
+  .recommend-form .button-aqua button {
+    background-color: var(--lime);
+    border: none;
+    padding: 4px 8px;
+    font-family: inherit;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .recommend-form .button-aqua button:hover {
+    background-color: var(--hover-grey);
+    color: white;
+  }
+
+  /* message span */
+  #formResult {
+    font-size: 18px;
   }
 
   .header{
@@ -112,6 +173,24 @@ body {
     .button-purple {
       a {
         background-color: var(--purple);
+      }
+    }
+
+    .button-navy {
+      a {
+        background-color: var(--navy);
+      }
+    }
+
+    .button-green{
+      a {
+        background-color: var(--green);
+      }
+    }
+
+    .button-orange{
+      a {
+        background-color: var(--orange);
       }
     }
 

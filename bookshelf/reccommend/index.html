@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../css/style.css">
+</title>
+  <style>
+    /* simple centering and spacing */
+    .recommend-form{
+      max-width:600px;
+      margin:2rem auto;
+      display:flex;
+      flex-direction:column;
+      gap:0.75rem;
+    }
+    .recommend-form label{
+      text-transform:lowercase;
+    }
+    .recommend-form input,
+    .recommend-form textarea{
+      width:100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h3><a href="../../">../../recommend</a></h3>
+  </div>
+
+  <div class="navigation">
+    <ul>
+      <li><div class="button-aqua"><a href="/bookshelf">back to bookshelf</a></div></li>
+    </ul>
+  </div>
+  <form action="https://api.web3forms.com/submit" method="POST" class="recommend-form" id="recommendForm">
+
+    <!-- Web3Forms access key -->
+    <input type="hidden" name="access_key" value="75eb635e-12f4-402b-b270-bac5526810da">
+
+    <!-- User inputs -->
+    <label for="name">name</label>
+    <input type="text" id="name" name="name">
+
+    <label for="email">your email (optional)</label>
+    <input type="email" id="email" name="email" placeholder="you@example.com">
+
+    <label for="message">book recommendation</label>
+    <textarea id="message" name="message" placeholder="I think you should read..." required></textarea>
+
+    <!-- Honeypot Spam Protection -->
+    <input type="checkbox" name="botcheck" style="display:none">
+
+    <!-- Email subject line -->
+    <input type="hidden" name="subject" value="New Book Recommendation">
+
+    <div class="button">
+      <button type="submit">send</button>
+      <span id="formResult" style="margin-left:0.5rem;"></span>
+    </div>
+  </form>
+</body>
+<script>
+  const form = document.getElementById("recommendForm");
+  const result = document.getElementById("formResult");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();         // stop normal redirect
+    const data = new FormData(form);
+
+    fetch(form.action, {
+      method: "POST",
+      body: data,
+      headers: { "Accept": "application/json" }
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        if (json.success) {
+          result.textContent = "recommendation sent successfully";
+          form.reset();
+        } else {
+          result.textContent = "failed to send";
+        }
+      })
+      .catch(() => {
+        result.textContent = "failed to send";
+      });
+  });
+</script>
+</html>

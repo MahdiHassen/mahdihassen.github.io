@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>bookshelf</title>
+  <!-- Re-use your global stylesheet -->
+  <link rel="stylesheet" href="../css/style.css">
+  <!-- Page-specific styles kept here so you don’t have to touch the main CSS file -->
+  <style>
+    /* === simple responsive grid === */
+    .bookshelf-grid {
+      display: grid;
+      grid-template-columns: 1fr; /* mobile: single column */
+      gap: 1.5rem;
+    }
+
+    .shelf summary {
+      margin: 0 0 .5rem 0;
+      text-transform: lowercase; /* stylistic match to about page */
+      cursor: pointer;
+    }
+
+    .shelf ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .shelf li {
+      margin: .25rem 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== header ===== -->
+<div class="header">
+  <h3><a href="../">.../bookshelf</a></h3>
+</div>
+<div class="navigation">
+  <ul>
+    <li>
+      <div class="button-lime">
+        <a href="/bookshelf/reccommend">recommend me a book</a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- ===== main content ===== -->
+<div class="sectionContent">
+  <div class="bookshelf-grid">
+    <!-- === shelf: books you have finished === -->
+    <details class="shelf" id="read" open>
+      <summary>read (non-exhaustive)</summary>
+      <ul>
+        <!-- read books -->
+        <li>The Burnout Society (9/10)</li>
+        <li>Can't Hurt Me (5/10)</li>
+        <li>Start with why (6/10)</li>
+        <li>Computer Architecture: A Quantitative Approach, 5th ed (8/10)</li>
+        <li>Deep Work (5.5/10)</li>
+        <li>Atomic Habits (7/10)</li>
+        <li>Contagious: why things catch on (7.5/10)</li>
+        <li>Once a Liar (6.5/10)</li>
+        <li>Start with why (6/10)</li>
+        <li>The hating game (1/10)</li>
+        <li>Care of the soul (3/10)</li>
+        <li>Feynman Lectures on Physics (7.5/10)</li>
+
+
+
+
+      </ul>
+    </details>
+
+    <!-- === currently reading === -->
+    <details class="shelf" id="reading" open>
+      <summary>reading</summary>
+      <ul>
+        <li>The Crisis of Narrative</li>
+        <li>Network Calculus</li>
+
+      </ul>
+    </details>
+
+    <!-- === books I wanna read === -->
+    <details class="shelf" id="to-read" open>
+      <summary>to read</summary>
+      <ul>
+        <li>Soul of a new machine</li>
+        <li>Principles and Practices of Interconnection Networks</li>
+        <li>In Praise of the Earth: A Journey into the Garden</li>
+
+      </ul>
+    </details>
+  </div>
+</div>
+
+</body>
+</html>
