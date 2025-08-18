@@ -2,11 +2,136 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>astrophotography</title>
+  <link rel="stylesheet" href="../css/style.css">
+
+  <style>
+    /* Grid container for all photos */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    /* Individual collapsible photo styling */
+    .photo-item summary {
+      margin: 0 0 .5rem 0;
+      text-transform: lowercase;
+      cursor: pointer;
+    }
+
+    /* Image styling within each collapsible */
+    .photo-item img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin-top: .5rem;
+    }
+
+    /* Caption styling */
+    .photo-caption {
+      margin-top: .5rem;
+      font-size: 0.9em;
+      color: #666;
+      line-height: 1.4;
+    }
+
+    .photo-caption a {
+      color: #4a90e2;
+      text-decoration: underline;
+    }
+
+    .photo-caption a:hover {
+      color: #357abd;
+    }
+  </style>
 </head>
 <body>
 
+<div class="header">
+  <h3><a href="../">.../astrophotography</a></h3>
+</div>
+<div class="navigation">
+  <ul>
+    <li>
+      <div class="button-lime">
+        <a href="/cameras">equipment</a>
+      </div>
+    </li>
+    <li>
+      <div class="button-red">
+        <a href="/cameras">skyview</a>
+      </div>
+    </li>
+  </ul>
+</div>
 
+<div class="sectionContent">
+  <div class="gallery-grid">
+
+    <details class="photo-item" open>
+      <summary>iris nebula - aug 2025</summary>
+     <img src="images/NGC7023_08-13-25.JPG" height="1920" width="1080"/>
+      <div class="photo-caption">
+        taken with seestar s50, original stacked photo. the streaks are shooting stars from the Perseid meteor shower that happens every year
+
+      </div>
+    </details>
+
+    <details class="photo-item" open>
+      <summary>grand design spiral galaxy - aug 2025</summary>
+      <img src="images/M81_08-13-25.JPG" height="1920" width="1080"/>
+      <div class="photo-caption">
+        taken with seestar s50, original stacked photo. The streak at the top is a shooting star from the Perseid meteor shower that happens every year
+      </div>
+    </details>
+
+    <details class="photo-item" open>
+      <summary>dumbell nebula - aug 2025</summary>
+
+      <img src="images/M27_08-12-25.JPG" height="1920" width="1080"/>
+      <div class="photo-caption">
+        taken with seestar s50, original stacked photo.
+      </div>
+    </details>
+
+    <details class="photo-item" open>
+      <summary>pelican nebula - aug 2025</summary>
+      <img src="images/IC5070_08-12-25.JPG" height="1920" width="1080"/>
+      <div class="photo-caption">
+        taken with seestar s50, original stacked photo.
+      </div>
+    </details>
+
+    <details class="photo-item" open>
+      <summary>pinwheel galaxy - aug 2025</summary>
+      <img src="images/M101_08-12-25.JPG" height="1920" width="1080"/>
+      <div class="photo-caption">
+        taken with seestar s50, original stacked photo.
+      </div>
+    </details>
+
+    <details class="photo-item" open>
+      <summary>pacman nebula</summary>
+
+      <img src="images/NGC281_08-12-25.JPG" height="1920" width="1080"/>
+      <div class="photo-caption">
+        taken with seestar s50, original stacked photo. kinda can see the pacman here, but a better camera would mess it up.
+      </div>
+    </details>
+
+    <details class="photo-item" open>
+      <summary>veil nebula</summary>
+
+      <img src="images/NGC6960_08-12-25.JPG" height="1920" width="1080"/>
+      <div class="photo-caption">
+        taken with seestar s50, original stacked photo. personally my favourite.
+      </div>
+    </details>
+
+  </div>
+</div>
 
 </body>
 </html>
