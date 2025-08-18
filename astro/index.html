@@ -29,6 +29,27 @@
       cursor: pointer;
     }
 
+    /* Desktop: remove collapse functionality */
+    @media (min-width: 768px) {
+      .photo-item summary {
+        pointer-events: none;
+        cursor: default;
+        list-style: none;
+      }
+      
+      .photo-item summary::-webkit-details-marker {
+        display: none;
+      }
+      
+      .photo-item summary::marker {
+        display: none;
+      }
+      
+      .photo-item summary::before {
+        display: none;
+      }
+    }
+
     /* Image styling within each collapsible */
     .photo-item img {
       max-width: 100%;
