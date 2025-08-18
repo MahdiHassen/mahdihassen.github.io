@@ -11,7 +11,15 @@
     .gallery-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 1rem;
+      gap: 2rem;
+    }
+
+    /* Desktop: 2 columns */
+    @media (min-width: 768px) {
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
     }
 
     /* Individual collapsible photo styling */
@@ -27,6 +35,15 @@
       height: auto;
       display: block;
       margin-top: .5rem;
+    }
+
+    /* Desktop: photos take full column width */
+    @media (min-width: 768px) {
+      .photo-item img {
+        width: 100%;
+        object-fit: cover;
+        max-height: 500px;
+      }
     }
 
     /* Caption styling */
@@ -71,7 +88,7 @@
   <div class="gallery-grid">
 
     <details class="photo-item" open>
-      <summary>iris nebula - aug 2025</summary>
+      <summary>iris nebula</summary>
      <img src="images/NGC7023_08-13-25.JPG" height="1920" width="1080"/>
       <div class="photo-caption">
         taken with seestar s50, original stacked photo. the streaks are shooting stars from the Perseid meteor shower that happens every year
@@ -80,7 +97,7 @@
     </details>
 
     <details class="photo-item" open>
-      <summary>grand design spiral galaxy - aug 2025</summary>
+      <summary>grand design spiral galaxy</summary>
       <img src="images/M81_08-13-25.JPG" height="1920" width="1080"/>
       <div class="photo-caption">
         taken with seestar s50, original stacked photo. The streak at the top is a shooting star from the Perseid meteor shower that happens every year
@@ -88,7 +105,7 @@
     </details>
 
     <details class="photo-item" open>
-      <summary>dumbell nebula - aug 2025</summary>
+      <summary>dumbell nebula</summary>
 
       <img src="images/M27_08-12-25.JPG" height="1920" width="1080"/>
       <div class="photo-caption">
@@ -97,7 +114,7 @@
     </details>
 
     <details class="photo-item" open>
-      <summary>pelican nebula - aug 2025</summary>
+      <summary>pelican nebula</summary>
       <img src="images/IC5070_08-12-25.JPG" height="1920" width="1080"/>
       <div class="photo-caption">
         taken with seestar s50, original stacked photo.
@@ -105,7 +122,7 @@
     </details>
 
     <details class="photo-item" open>
-      <summary>pinwheel galaxy - aug 2025</summary>
+      <summary>pinwheel galaxy</summary>
       <img src="images/M101_08-12-25.JPG" height="1920" width="1080"/>
       <div class="photo-caption">
         taken with seestar s50, original stacked photo.
