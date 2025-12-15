@@ -28,6 +28,18 @@ body.dark-mode {
   --secondary-text: #AAAAAA;
 }
 
+body.dark-mode .sectionContent .tag-light-blue {
+  background-color: #345D75;
+}
+
+body.dark-mode .sectionContent .tag-yellow {
+  background-color: #654000;
+}
+
+body.dark-mode .sectionContent .tag-blue {
+  background-color: #316D6F;
+}
+
 html {
   color: var(--text-color);
   font-size: 1em;
