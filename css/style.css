@@ -9,22 +9,35 @@
   --navy: #0095ff;
   --green: #78dc24;
   --orange: #d18232;
+  --text-color: #222;
+  --secondary-text: #555555;
+}
 
-  /* dark mode colours */
-
+/* dark mode colours */
+body.dark-mode {
+  --aqua: #016D6D;
+  --lime: #254400;
+  --red: #FD7963;
+  --purple: #C172FF;
+  --bg-white: #111111;
+  --hover-grey: #C6C4C7;
+  --navy: #009AFF;
+  --green: #036801;
+  --orange: #B66716;
+  --text-color: #DDDDDD;
+  --secondary-text: #AAAAAA;
 }
 
 html {
-  color: #222;
+  color: var(--text-color);
   font-size: 1em;
   line-height: 1.4;
 }
 
 body {
-
+  color: var(--text-color);
   font-family: monospace;
   font-size: 24px;
-
   background: var(--bg-white);
 
   h3 {
@@ -68,9 +81,11 @@ body {
     font-family: inherit;
     font-size: 16px;
     padding: 4px;
-    border: 1px solid #222;
+    border: 1px solid var(--text-color);
     width: 80%;
     justify-content: center;
+    background-color: var(--bg-white);
+    color: var(--text-color);
   }
 
   .recommend-form textarea {
@@ -151,9 +166,6 @@ body {
     .button-aqua {
       a {
         background-color: var(--aqua);
-        @media (prefers-color-scheme: dark) {
-          background-color: var(--aqua);
-        }
       }
     }
 
@@ -209,7 +221,7 @@ body {
     p {
       margin-bottom: 16px;
       margin-top: 8px;
-      color: black !important;
+      color: var(--text-color) !important;
     }
 
     a {
@@ -272,7 +284,7 @@ body {
 
     p {
       margin: 0;
-      color: #555555;
+      color: var(--secondary-text);
       font-size: 16px;
       margin-bottom: 8px;
 
@@ -292,7 +304,7 @@ body {
 
     .date {
       margin: 0;
-      color: #555555;
+      color: var(--secondary-text);
       font-size: 16px;
       margin-bottom: 8px;
 
